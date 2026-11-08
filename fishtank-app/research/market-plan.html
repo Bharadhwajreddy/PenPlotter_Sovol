@@ -1,0 +1,341 @@
+<title>Fish Tank Market Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column (max 1040px) of numbered decision sections; tables scroll inside their own box on phones. */
+:root{
+  --bg:#F3F7F6; --surface:#FFFFFF; --surface-2:#E8F0EE; --ink:#0C2630; --ink-2:#4A6470; --line:#D5E1DE;
+  --teal:#0E6F69; --teal-soft:#D3EDE9; --gold:#A35F00; --gold-soft:#FBECD6;
+  --good:#12692F; --good-soft:#DDF2E4; --warn:#9A3412; --warn-soft:#FDEBDC; --bad:#B42318; --bad-soft:#FBE4E1;
+  --f-display:"Bricolage Grotesque","Figtree",system-ui,sans-serif; --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#071B21; --surface:#0D262E; --surface-2:#133440; --ink:#E3F0EF; --ink-2:#9DB9BF; --line:#1E4350;
+  --teal:#34B8AC; --teal-soft:#10393A; --gold:#F2A93B; --gold-soft:#3A2A10;
+  --good:#4ADE80; --good-soft:#0E3320; --warn:#FDBA74; --warn-soft:#3A2210; --bad:#F87171; --bad-soft:#3B1412; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#071B21; --surface:#0D262E; --surface-2:#133440; --ink:#E3F0EF; --ink-2:#9DB9BF; --line:#1E4350;
+  --teal:#34B8AC; --teal-soft:#10393A; --gold:#F2A93B; --gold-soft:#3A2A10;
+  --good:#4ADE80; --good-soft:#0E3320; --warn:#FDBA74; --warn-soft:#3A2210; --bad:#F87171; --bad-soft:#3B1412; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding-block:40px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;letter-spacing:-.015em;text-wrap:balance}
+h1{font-size:clamp(36px,6vw,60px);font-weight:800}
+h2{font-size:clamp(25px,3.4vw,32px);font-weight:800}
+h3{font-size:19px;font-weight:700}
+p{margin:0;max-width:70ch}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+.muted{color:var(--ink-2)}
+.tnum{font-variant-numeric:tabular-nums}
+.label{font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+section{display:flex;flex-direction:column;gap:18px}
+.sec-head{display:flex;gap:14px;align-items:baseline}
+.sec-num{font-family:var(--f-display);font-weight:800;font-size:15px;color:var(--gold);min-width:28px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:860px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.flat{background:var(--surface-2);border-color:transparent}
+.big{font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1.05;font-variant-numeric:tabular-nums}
+.src{font-size:13px;color:var(--ink-2)}
+.verdict{background:var(--ink);color:var(--bg);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.verdict h2{color:var(--bg)}
+.verdict p{color:var(--bg);opacity:.9}
+.verdict .row{display:flex;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;border-radius:6px;padding:3px 9px;font-size:13px;font-weight:800}
+.p-good{background:var(--good-soft);color:var(--good)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-teal{background:var(--teal-soft);color:var(--teal)}
+.p-gold{background:var(--gold-soft);color:var(--gold)}
+.p-grey{background:var(--surface-2);color:var(--ink-2)}
+.status-col{display:flex;flex-direction:column;gap:10px}
+.status-col h3{display:flex;gap:8px;align-items:center}
+.player{background:var(--surface);border:1px solid var(--line);border-left-width:5px;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:3px}
+.player.good{border-left-color:var(--good)}.player.warn{border-left-color:var(--warn)}.player.bad{border-left-color:var(--bad)}
+.player b{font-size:16px}
+.player span{font-size:14.5px;color:var(--ink-2)}
+ol.lessons{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+ol.lessons li::marker{font-weight:800;color:var(--gold)}
+.table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.funnel{display:flex;flex-direction:column;gap:8px}
+.f-row{display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.f-row b{font-family:var(--f-display);font-size:17px}
+.f-row .v{font-family:var(--f-display);font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.f-row .s{font-size:13.5px;color:var(--ink-2)}
+@media (max-width:620px){.f-row{grid-template-columns:minmax(0,1fr)}}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.chart svg{width:100%;height:auto;max-width:100%}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.decision{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.decision .n{font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--teal);min-width:28px}
+.timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:860px){.timeline{grid-template-columns:minmax(0,1fr)}}
+.phase{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.phase.money{border-top-color:var(--gold)}
+.phase .m{font-size:13px;font-weight:800;color:var(--ink-2);letter-spacing:.04em}
+.phase ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--ink-2);display:flex;flex-direction:column;gap:3px}
+.two-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.two-list{grid-template-columns:minmax(0,1fr)}}
+ul.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.note{background:var(--surface-2);border-radius:14px;padding:14px 16px;font-size:14.5px;color:var(--ink-2)}
+.sources{font-size:14px;color:var(--ink-2);columns:2;column-gap:28px}
+@media (max-width:700px){.sources{columns:1}}
+.sources li{margin-bottom:6px;break-inside:avoid}
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:14px">
+    <span class="label">Fish Tank · Market plan · November 2026</span>
+    <h1>Is there a market, and how do we get in?</h1>
+    <p class="muted" style="font-size:18px">Built from four research streams: competitor results, market size, go-to-market, and features. Every number comes with a source at the bottom. Numbers marked “assumption” are our own estimates to test.</p>
+  </header>
+
+  <div class="verdict">
+    <span class="label" style="color:var(--gold)">The verdict</span>
+    <h2>Yes, there is a market. Enter narrow, in two phases, and earn from brands and lenders.</h2>
+    <p>People who need ₹50,000 to ₹10 lakh to start a business are plentiful. Money from ordinary lenders is the scarce side: India’s whole P2P lending industry shrank to about ₹1,500 crore after RBI’s 2024 rules. So Fish Tank launches in Warangal as a free launch platform: pitch, proof, mentors, franchise matching and bank-loan help. Community lending comes later, only after a written legal opinion.</p>
+    <div class="row"><span class="pill p-good">Demand: strong</span><span class="pill p-warn">Lender money: the limit</span><span class="pill p-warn">Rules: strict, workable</span><span class="pill p-good">Gap no one owns: first 180 days</span></div>
+  </div>
+
+  <section aria-labelledby="s1">
+    <div class="grid g4">
+      <div class="card"><span class="big">30–47 lakh</span><span>First-time businesses a year in India borrowing ₹50,000–₹10 lakh (MUDRA Kishor and Tarun).</span><span class="src">PIB, Apr 2026 · our range</span></div>
+      <div class="card"><span class="big">87,920</span><span>First-time borrowers in that band in Telangana in one year (FY25), average ₹4.17 lakh.</span><span class="src">Telangana SLBC</span></div>
+      <div class="card"><span class="big">₹30 lakh cr</span><span>Credit gap for small businesses. 35% for women-owned ones.</span><span class="src">SIDBI–CRISIL, May 2025</span></div>
+      <div class="card"><span class="big">~₹1,500 cr</span><span>Total left in India’s P2P lending industry, down over 85% after the 2024 rules.</span><span class="src">ET via Angel One, Aug 2025</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-comp">
+    <div class="sec-head"><span class="sec-num">01</span><h2 id="s-comp">What happened to the competitors</h2></div>
+    <p class="muted">About 30 players benchmarked. The pattern is clear: the ones that make money either connect people to lenders who carry the risk, or became regulated lenders themselves. The ones that promised safe returns or lived on small fees died.</p>
+    <div class="grid g3">
+      <div class="status-col"><h3><span class="pill p-good">Succeeding</span></h3>
+        <div class="player good"><b>LenDenClub</b><span>₹96 cr profit in FY26 on only ~$12M raised. 55% of revenue now comes from sourcing loans for others.</span></div>
+        <div class="player good"><b>PhonePe lending</b><span>Merchant loans grew from ₹11 cr to ₹4,507 cr in two years as a pure distributor. Partners carry the risk.</span></div>
+        <div class="player good"><b>BharatPe</b><span>EBITDA-positive in FY25. Lends on payment data it already sees.</span></div>
+        <div class="player good"><b>Franchise India</b><span>25-year incumbent. Brands pay for events, leads and consulting.</span></div>
+        <div class="player good"><b>Kiva</b><span>$2.4B+ lent. 97% repaid via local field partners, only 72.8% on direct US loans.</span></div>
+        <div class="player good"><b>LendingClub, Zopa, Funding Circle</b><span>Profitable, but only after leaving retail P2P for bank or institutional money.</span></div>
+      </div>
+      <div class="status-col"><h3><span class="pill p-warn">Struggling</span></h3>
+        <div class="player warn"><b>Faircent, LiquiLoans, Finzy, i2iFunding</b><span>Fined in 2024–25. Pooled, deposit-like products froze.</span></div>
+        <div class="player warn"><b>Rang De</b><span>Small and impact-driven. ₹40 cr+ lent. Fined for auto-allocating lenders.</span></div>
+        <div class="player warn"><b>Khatabook, OkCredit</b><span>Millions of shopkeepers, but no way to earn from them. OkCredit: ₹428 cr losses vs ₹9 cr revenue.</span></div>
+        <div class="player warn"><b>Tyke, LVX, Grip, Klub, Velocity</b><span>Grey-zone or loss-making. Startups that raised via Tyke were fined.</span></div>
+        <div class="player warn"><b>Honeycomb Credit, Republic</b><span>Sub-scale. No public default data.</span></div>
+        <div class="player warn"><b>Shark Tank India (as funding)</b><span>Only 27 of 65 Season 1 deals closed. The value is publicity.</span></div>
+      </div>
+      <div class="status-col"><h3><span class="pill p-bad">Failed</span></h3>
+        <div class="player bad"><b>BharatPe 12% Club</b><span>“12%, withdraw anytime” was banned. Folded in Oct 2024.</span></div>
+        <div class="player bad"><b>Mainvest (US)</b><span>Closed Jun 2024. Small fees, no new funding, $2.4M frozen at a failed payments partner.</span></div>
+        <div class="player bad"><b>Lendingkart</b><span>Sold at ~$100M after a $350M+ peak. Bad loans without its own sales data.</span></div>
+        <div class="player bad"><b>China’s P2P industry</b><span>5,000+ platforms to zero by 2020. Guaranteed returns, pooled money, fraud.</span></div>
+        <div class="player" style="border-left-color:var(--ink-2)"><b>Too early to judge</b><span>Brinco (franchise investing, Feb 2026) is the closest new rival. PitchConnectUs and Indian Investment Network: no data found.</span></div>
+      </div>
+    </div>
+    <div class="card flat"><h3>Six lessons we act on</h3>
+      <ol class="lessons">
+        <li><b>Never promise safe returns, liquidity or pooling.</b> Every platform that did was frozen, fined or shut.</li>
+        <li><b>Be the connector, not the lender.</b> PhonePe and LenDenClub earn fees while licensed partners carry the risk.</li>
+        <li><b>Small fees alone don’t pay for a platform.</b> Mainvest, StartEngine’s crowdfunding arm and OkCredit prove it. Brands and lenders must pay.</li>
+        <li><b>Local partners make small loans repay.</b> Kiva’s field partners hit 97%. Our mentors, brands and SHG partners play that role.</li>
+        <li><b>Have backups for money rails.</b> Mainvest froze because one payments partner failed. Use two partners.</li>
+        <li><b>Publish real repayment data.</b> Hidden defaults destroyed trust for Honeycomb and many others.</li>
+      </ol></div>
+  </section>
+
+  <section aria-labelledby="s-size">
+    <div class="sec-head"><span class="sec-num">02</span><h2 id="s-size">Is the market big enough?</h2></div>
+    <p class="muted">Yes for demand. The binding limits are lender money and loss rates, not entrepreneurs. A franchise-only start in one city is too small, so we add shops, food and services in year one.</p>
+    <div class="funnel">
+      <div class="f-row"><b>Whole market (India)</b><span class="v">30–47 lakh a year</span><span class="s">First-time businesses in our ₹50k–₹10 lakh band. A ₹10,170–15,650 cr revenue pool at ₹33,500 per launch (assumption).</span></div>
+      <div class="f-row"><b>Reachable (Telangana + AP)</b><span class="v">71,000–1.07 lakh a year</span><span class="s">40–60% of ~1.8 lakh first-timers who are in towns, on smartphones and willing to pitch. ₹239–358 cr pool.</span></div>
+      <div class="f-row"><b>Franchise-only start</b><span class="v">1,000–2,500 a year</span><span class="s">Tier-2/3 franchise outlets in both states. Too small alone: ₹3–8 cr pool.</span></div>
+      <div class="f-row"><b>What we aim to win</b><span class="v">50–150 → 700–3,000</span><span class="s">Launches in year 1 (Warangal only) rising to year 3 (6 cities, maybe Hyderabad). Assumption.</span></div>
+    </div>
+    <div class="chart">
+      <h3>Three-year revenue, against break-even</h3>
+      <div class="legend"><span><i style="background:var(--teal)"></i>Conservative</span><span><i style="background:var(--gold)"></i>Optimistic</span><span><i style="background:var(--bad);height:3px;vertical-align:3px"></i>Break-even revenue at ₹3 cr fixed cost</span></div>
+      <svg viewBox="0 0 640 260" role="img" aria-label="Revenue by year. Conservative: 0.17, 0.84 and 2.35 crore rupees. Optimistic: 0.50, 2.68 and 10.05 crore rupees. Break-even revenue is about 7.2 crore rupees a year at 3 crore fixed cost.">
+        <g font-family="Figtree, system-ui, sans-serif" font-size="13">
+          <line x1="60" y1="210" x2="620" y2="210" stroke="var(--line)" stroke-width="1.5"/>
+          <line x1="60" y1="130" x2="620" y2="130" stroke="var(--line)" stroke-dasharray="3 4"/>
+          <line x1="60" y1="50" x2="620" y2="50" stroke="var(--line)" stroke-dasharray="3 4"/>
+          <text x="52" y="214" text-anchor="end" fill="var(--ink-2)">₹0</text>
+          <text x="52" y="134" text-anchor="end" fill="var(--ink-2)">₹5 cr</text>
+          <text x="52" y="54" text-anchor="end" fill="var(--ink-2)">₹10 cr</text>
+          <!-- scale: 16px per crore; baseline y=210 -->
+          <rect x="110" y="207.3" width="50" height="2.7" fill="var(--teal)"/><rect x="166" y="202" width="50" height="8" fill="var(--gold)"/>
+          <rect x="290" y="196.6" width="50" height="13.4" fill="var(--teal)"/><rect x="346" y="167.1" width="50" height="42.9" fill="var(--gold)"/>
+          <rect x="470" y="172.4" width="50" height="37.6" fill="var(--teal)"/><rect x="526" y="49.2" width="50" height="160.8" fill="var(--gold)"/>
+          <text x="135" y="200" text-anchor="middle" fill="var(--ink)">0.17</text><text x="191" y="195" text-anchor="middle" fill="var(--ink)">0.50</text>
+          <text x="315" y="190" text-anchor="middle" fill="var(--ink)">0.84</text><text x="371" y="160" text-anchor="middle" fill="var(--ink)">2.68</text>
+          <text x="495" y="166" text-anchor="middle" fill="var(--ink)">2.35</text><text x="551" y="42" text-anchor="middle" fill="var(--ink)">10.05</text>
+          <text x="163" y="232" text-anchor="middle" fill="var(--ink-2)">Year 1</text><text x="343" y="232" text-anchor="middle" fill="var(--ink-2)">Year 2</text><text x="523" y="232" text-anchor="middle" fill="var(--ink-2)">Year 3</text>
+          <line x1="60" y1="94.8" x2="620" y2="94.8" stroke="var(--bad)" stroke-width="2.5"/>
+          <text x="64" y="88" fill="var(--bad)" font-weight="700">Break-even ≈ ₹7.2 cr revenue (~2,150 launches)</text>
+        </g>
+      </svg>
+      <p class="src">Revenue in ₹ crore at ₹33,500 per launched business (assumption). Only the optimistic path passes break-even within three years, so costs must stay lean and launches must go beyond franchises.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card flat"><h3>Lender money is the limit</h3><p class="muted">Optimistic year 3 needs ~₹125 cr a year of lender money, about 8% of today’s whole P2P industry. Banks and MUDRA must stay the main money route.</p></div>
+      <div class="card flat"><h3>Losses will be visible</h3><p class="muted">Telangana MUDRA bad loans: 9.4% (Kishor), 6.3% (Tarun). P2P loans 90+ days late: ~20%. Small tickets, staged payouts and published data are a must.</p></div>
+      <div class="card flat"><h3>Guidance pays little</h3><p class="muted">The biggest small-town business-education app earns about ₹35 crore from ~1 crore users. Mentoring is a reason to join, not the revenue.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-dec">
+    <div class="sec-head"><span class="sec-num">03</span><h2 id="s-dec">What we decide, and do differently</h2></div>
+    <div class="grid" style="gap:10px">
+      <div class="decision"><span class="n">1</span><div><h3>Launch without the money feature</h3><p class="muted">RBI’s 2024 rules ban matching lenders and borrowers “within a closed user group”. A platform that brings both sides could fall inside that ban. Day 1 is pitch, proof, mentors, franchise matching and help with MUDRA and JanSamarth loans. Community lending goes live only after a written legal opinion, ideally listed on a P2P partner’s open marketplace.</p></div></div>
+      <div class="decision"><span class="n">2</span><div><h3>Own the first 180 days</h3><p class="muted">Lenders want 6–24 months of history and new businesses have none. Fish Tank replaces history with checked proof (the Fish Score), then hands each business to a bank after six months of sales. That handover is PhonePe’s proven fee model.</p></div></div>
+      <div class="decision"><span class="n">3</span><div><h3>Brands and lenders pay, people mostly don’t</h3><p class="muted">Franchise brands pay per outlet opened. Banks pay 0.5–2% per loan referred (benchmark). Business owners pay small fees. Mentors share 20%. No subscription dependence.</p></div></div>
+      <div class="decision"><span class="n">4</span><div><h3>Start in Warangal, then grow</h3><p class="muted">Franchise aspirants first, then shops, food and services in year one. Vijayawada is city two. Six Tier-2 cities by year three.</p></div></div>
+      <div class="decision"><span class="n">5</span><div><h3>Speak the user’s language, literally</h3><p class="muted">No lending app does voice-first, Telugu-first business pitching. Meesho’s voice search went from ~10% to ~40% use. This is our clearest product edge.</p></div></div>
+      <div class="decision"><span class="n">6</span><div><h3>Say “back” or “lend”, never “invest”</h3><p class="muted">No return headlines, no guarantees, no early exit, no public equity offers. Ownership pitches only get “Ask for an introduction”.</p></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-feat">
+    <div class="sec-head"><span class="sec-num">04</span><h2 id="s-feat">Features: what we add and what we refuse to build</h2></div>
+    <div class="two-list">
+      <div class="card"><h3><span class="pill p-good">Add in V3</span></h3>
+        <ul class="clean">
+          <li><b>Speak your pitch</b> in Telugu or Hindi. Speaking fills the form.</li>
+          <li><b>Circle round on WhatsApp:</b> people who know the owner back them first and vouch publicly (if counsel allows).</li>
+          <li><b>Checked proof and “Why 81?”:</b> each proof needs a photo or document, and the Fish Score is explained.</li>
+          <li><b>Repayment calendar and UPI AutoPay,</b> with reminders and a clear late-payment policy.</li>
+          <li><b>Monthly 2-minute update</b> from every funded business. The thing every crowdfunding site lacks.</li>
+          <li><b>Staged payouts</b> released against a bill and an in-app photo.</li>
+          <li><b>Spread ₹10,000 across 10</b> businesses in one tap.</li>
+          <li><b>Bank loan help:</b> a ready MUDRA application pack and the JanSamarth portal.</li>
+          <li><b>Every word in Telugu and Hindi, Listen buttons, low-data mode.</b></li>
+          <li><b>Fish Tank Live</b> event cards and a ₹100 referral.</li>
+        </ul></div>
+      <div class="card"><h3><span class="pill p-bad">Will not build</span></h3>
+        <ul class="clean">
+          <li><b>Early exit or a resale market</b> for loans. RBI bars liquidity options.</li>
+          <li><b>Promised or headline returns.</b> Interest shows only as small print, “not guaranteed”.</li>
+          <li><b>Public equity crowdfunding.</b> Not legal for ordinary investors in India.</li>
+          <li><b>Pooled money or auto-reinvest across loans.</b> Each lender chooses each loan.</li>
+          <li><b>Fish Tank holding money.</b> A licensed partner holds it, with a backup.</li>
+          <li><b>Paid subscriptions as the main revenue.</b></li>
+        </ul>
+        <p class="note">The share-of-sales option needs a legal opinion before it’s offered for real money.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-gtm">
+    <div class="sec-head"><span class="sec-num">05</span><h2 id="s-gtm">How we enter the market: 12 months</h2></div>
+    <div class="grid g3">
+      <div class="card"><span class="label">Why Warangal</span><p>Telangana’s second city, with NIT Warangal’s incubator, SRiX, STPI and an IT hub. It sits inside the state’s women’s-group, Vijaya Dairy, WE Hub and T-Hub programmes. Big enough to matter, small enough to fill.</p><span class="src">~1,900 first-time loans a year in our band (estimate)</span></div>
+      <div class="card"><span class="label">Who we sign up first</span><p>1. Franchise brands (they pay). 2. Would-be franchisees and shop owners. 3. Mentors, as event judges. 4. Banks, for bigger loans. 5. Community lenders, last.</p></div>
+      <div class="card"><span class="label">How people hear of us</span><p>A monthly Telugu “Fish Tank Live” pitch night cut into reels; a WhatsApp pitch card and city community; ₹100 per verified referral; 2–4 field “Mitras” paid on verified results.</p></div>
+    </div>
+    <div class="timeline">
+      <div class="phase"><span class="m">M0–M1</span><h3>Foundations</h3><ul><li>Legal opinion on P2P, BUDS Act and data rules</li><li>Interview 20 brands, get letters of intent</li><li>Build the free tool: Telugu pitch, proof, loan help</li></ul></div>
+      <div class="phase"><span class="m">M2–M4</span><h3>Seed Warangal</h3><ul><li>Sign 5–8 brands</li><li>2 Fish Tank Live events</li><li>SHG and college camps</li><li>Mentors as judges</li></ul></div>
+      <div class="phase money"><span class="m">M5–M7</span><h3>Turn on money</h3><ul><li>Only with a clean legal opinion</li><li>One P2P partner, a second as backup</li><li>₹50,000 cap per lender per business</li><li>Bank and MUDRA in parallel</li></ul></div>
+      <div class="phase"><span class="m">M8–M10</span><h3>Graduate</h3><ul><li>First businesses with 6 months of sales go to banks</li><li>Add Karimnagar or Khammam</li><li>Prepare Vijayawada</li></ul></div>
+      <div class="phase"><span class="m">M11–M12</span><h3>Decide</h3><ul><li>Launch Vijayawada only if Gate 3 passes</li><li>Otherwise deepen Warangal</li></ul></div>
+    </div>
+    <h3>Go / no-go gates (thresholds are assumptions to calibrate)</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Gate</th><th>Go if</th><th>If not</th></tr></thead>
+      <tbody>
+        <tr><td><b>Month 4</b></td><td>≥5 brands signed · ≥150 verified pitches · ≥30 active mentors · ≥150 people per event · legal structure viable</td><td>Fewer than 3 brands: switch the entry point to women’s self-help groups. No viable structure: bank and MUDRA loans only.</td></tr>
+        <tr><td><b>Month 7</b></td><td>≥10 outlets opened · ≥25 pitchers financed by any route · ≥40% of new pitchers come by referral</td><td>Under 20% referral: growth loops are broken; fix before spending more.</td></tr>
+        <tr><td><b>Month 10</b></td><td>Positive margin per outlet · ≥90% of outlets open after 90 days · late loans at or below the partner’s rate · ≥10 graduates</td><td>Pause new listings, tighten checks, don’t expand.</td></tr>
+      </tbody></table></div>
+    <div class="grid g2">
+      <div class="card"><span class="label">12-month budget (assumption)</span><span class="big">₹0.9–2.1 cr</span>
+        <span class="muted">Excluding the core app build and founders’ pay.</span>
+        <ul class="clean muted" style="font-size:15px"><li>City team and field Mitras: ₹30–55 lakh</li><li>Events, content and ads: ₹30–85 lakh</li><li>Legal and compliance: ₹8–20 lakh</li><li>Referrals, camps, contingency: ₹18–45 lakh</li></ul></div>
+      <div class="card"><span class="label">Partners to sign</span>
+        <ul class="clean muted" style="font-size:15px">
+          <li><b>M1:</b> fintech lawyer</li>
+          <li><b>M2:</b> 5–8 franchise brands (e.g. Vijaya Dairy parlours, pharmacy and tea chains); NIT Warangal incubator or SRiX</li>
+          <li><b>M3:</b> SERP or MEPMA women’s groups; WE Hub</li>
+          <li><b>M4:</b> a public-sector or rural bank and one NBFC for loan referrals</li>
+          <li><b>M5:</b> one P2P partner, a second by M8 (shortlist: IndiaP2P, Rang De, LenDenClub)</li>
+          <li><b>M6:</b> a Telugu creator or media partner</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-risk">
+    <div class="sec-head"><span class="sec-num">06</span><h2 id="s-risk">Biggest risks, and what we do about them</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th style="width:34%">Risk</th><th>What we do</th></tr></thead>
+      <tbody>
+        <tr><td>The P2P setup counts as a “closed user group”</td><td>Legal opinion first. List on the partner’s open marketplace. Bring only borrowers if needed. Bank and MUDRA stay the main route.</td></tr>
+        <tr><td>Copy reads as an investment with returns</td><td>“Back/lend” wording, no return headlines, partner compliance pre-approval, trained event judges.</td></tr>
+        <tr><td>Money collected outside the app (BUDS Act)</td><td>Terms ban it, WhatsApp groups moderated, in-app scam warnings, no pledges outside escrow.</td></tr>
+        <tr><td>Defaults hurt lenders and trust</td><td>Small tickets, spread nudges, staged payouts, mentor check-ins, published repayment data.</td></tr>
+        <tr><td>Too few lenders</td><td>Owners still get value from proof, mentors, brands and bank loans without lenders.</td></tr>
+        <tr><td>Bad franchise brands</td><td>Only brands with running outlets; disclosure checklist; reference calls; paid only on verified openings.</td></tr>
+        <tr><td>Name and clip clash with Shark Tank</td><td>Trademark search; Fish Tank owns event footage and gives pitchers reuse rights.</td></tr>
+        <tr><td>Data protection (rules apply from about May 2027)</td><td>Privacy by design, India hosting, consented checks, no Aadhaar authentication without approval.</td></tr>
+        <tr><td>Partner or regulator shock</td><td>Two P2P partners plus bank routes; exit clauses; watch RBI circulars.</td></tr>
+        <tr><td>Field staff gaming targets</td><td>Pay on verified outcomes with clawbacks; track cost per cohort.</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section aria-labelledby="s-next">
+    <div class="sec-head"><span class="sec-num">07</span><h2 id="s-next">The next 30 days</h2></div>
+    <div class="grid g2">
+      <div class="card"><h3>Do</h3><ol class="lessons"><li>Hire a fintech lawyer: P2P closed-group question, BUDS Act, lending-partner rules, data rules, Fish Tank trademark.</li><li>Interview 20 franchise brands with Tier-2 plans; ask for letters of intent to pay per opening.</li><li>Talk to 3 P2P partners and 1 bank about referrals.</li><li>Show the V3 prototype to 20 would-be owners and 20 savers in Warangal, in Telugu.</li><li>Book a venue for the first Fish Tank Live.</li></ol></div>
+      <div class="card"><h3>Still to verify</h3><ul class="clean muted"><li>RBI P2P caps: ₹10 lakh per borrower, ₹50,000 per lender per borrower, 36 months (secondary sources)</li><li>Andhra Pradesh MUDRA numbers (estimated from Telangana)</li><li>Franchise outlets opened per year and survival rates (no reliable data)</li><li>Warangal MUDRA loan density by bank</li><li>Whether brands will actually pay per opening, and how much</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-src">
+    <div class="sec-head"><span class="sec-num">08</span><h2 id="s-src">Main sources</h2></div>
+    <ul class="sources">
+      <li>RBI NBFC-P2P directions, amended Aug 2024: <a href="https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12721" target="_blank" rel="noopener">rbi.org.in</a></li>
+      <li>RBI P2P directions 2025 (₹50 lakh lender cap): <a href="https://taxguru.in/rbi/rbi-non-banking-financial-companies-peer-peer-lending-platform-directions-2025.html" target="_blank" rel="noopener">TaxGuru</a></li>
+      <li>P2P industry ~₹1,500 cr, ~20% 90+ days late: <a href="https://www.angelone.in/news/market-updates/p2p-lenders-seek-relief-from-rbi-as-stringent-norms-hit-business-viability" target="_blank" rel="noopener">Angel One / ET, Aug 2025</a></li>
+      <li>MUDRA totals and first-time borrowers: <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2249915" target="_blank" rel="noopener">PIB, Apr 2026</a></li>
+      <li>Telangana MUDRA FY25 and NPAs: <a href="https://telanganaslbc.com/wp-content/uploads/2025/21%20%2045th%20SLBC%20Meeting%20Agenda.pdf" target="_blank" rel="noopener">Telangana SLBC agenda</a></li>
+      <li>MSME credit gap: <a href="https://www.sidbi.in/uploads/Understanding_Indian_MSME_sector_Progress_and_Challenges_13_05_25_Final.pdf" target="_blank" rel="noopener">SIDBI–CRISIL, May 2025</a></li>
+      <li>Udyam registrations by state: <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2246892" target="_blank" rel="noopener">PIB, Mar 2026</a></li>
+      <li>LenDenClub FY26 results: <a href="https://inc42.com/?p=565314" target="_blank" rel="noopener">Inc42</a></li>
+      <li>PhonePe merchant lending: <a href="https://www.businesstoday.in/personal-finance/news/story/phonepe-sharpens-focus-on-merchant-lending-consumer-loans-ahead-of-ipo-push-519975-2026-03-10" target="_blank" rel="noopener">Business Today, Mar 2026</a></li>
+      <li>P2P fines 2025: <a href="https://moneylife.in/article/rbi-imposes-rs7660-lakh-penalty-on-4-nbfcs-for-violating-p2p-lending-regulations/76601.html" target="_blank" rel="noopener">Moneylife</a></li>
+      <li>12% Club folded: <a href="https://www.business-standard.com/amp/companies/start-ups/fintech-major-bharatpe-rolls-out-investment-platform-invest-bharatpe-124102801044_1.html" target="_blank" rel="noopener">Business Standard</a></li>
+      <li>Lendingkart distressed sale: <a href="https://entrackr.com/2024/10/temaseks-fullerton-to-take-control-of-lendingkart-in-distressed-acquisition" target="_blank" rel="noopener">Entrackr</a></li>
+      <li>OkCredit losses: <a href="https://entrackr.com/?p=180851" target="_blank" rel="noopener">Entrackr</a></li>
+      <li>Mainvest closure: <a href="https://www.bostonglobe.com/2024/05/31/business/mainvest-salem-crowdfunding-june/" target="_blank" rel="noopener">Boston Globe</a></li>
+      <li>Kiva repayment by channel: <a href="https://www.kiva.org/about/due-diligence" target="_blank" rel="noopener">Kiva</a></li>
+      <li>StartEngine FY25 10-K: <a href="https://www.sec.gov/Archives/edgar/data/1661779/000110465926037922/stgc-20251231x10k.htm" target="_blank" rel="noopener">SEC</a></li>
+      <li>China P2P shutdown: <a href="https://asiatimes.com/2020/11/china-shut-down-all-p2p-platforms-by-mid-nov/" target="_blank" rel="noopener">Asia Times</a></li>
+      <li>Shark Tank India S1 close rate: <a href="https://business2business.co.in/article/3803/shark-tank-india-season-1-logs-only-41-percent-deal-close-rate-namita-thapar-fulfilled-maximum-investment-commitments-anupam-mittal-lowest" target="_blank" rel="noopener">PrivateCircle via B2B</a></li>
+      <li>Tyke and RoC fines: <a href="https://inc42.com/features/the-truth-about-tyke-invest-and-crowdfunded-startup-investments/" target="_blank" rel="noopener">Inc42</a></li>
+      <li>Brinco launch: <a href="https://cxotoday.com/media-coverage/brinco-launches-franchise-investment-platform-ecosystem-to-bring-structure-to-indias-150-billion-market/" target="_blank" rel="noopener">CXOToday</a></li>
+      <li>Franchise market (secondary): <a href="https://www.induqin.com/post/india-franchise-industry-to-touch-usd-140-150-billion-in-next-5-years-says-report" target="_blank" rel="noopener">FranCast via Induqin</a></li>
+      <li>ffreedom / Boss Wallah revenue: <a href="https://tracxn.com/d/companies/ffreedom-app/__ZWlhWRq-UkV4VDWr8ScCiLR97hB9Kn1jTbRA6iO_SXU" target="_blank" rel="noopener">Tracxn</a></li>
+      <li>JanSamarth portal: <a href="https://financialservices.gov.in/index.php/jansamarth" target="_blank" rel="noopener">DFS</a></li>
+      <li>Digital Lending Directions 2025: <a href="https://www.legal500.com/intelligence/india/technology/digital-lending-directions-2025" target="_blank" rel="noopener">Legal500 summary</a></li>
+      <li>BUDS Act 2019: <a href="https://taxmann.com/post/blog/banning-of-unregulated-deposits-definitions-relevant-for-the-purposes-of-the-banning-of-unregulated-deposit-schemes-act" target="_blank" rel="noopener">Taxmann</a></li>
+      <li>Vijaya Dairy outlets via SHGs: <a href="https://telanganatoday.com/telangana-to-set-up-1000-vijaya-dairy-outlets-across-state" target="_blank" rel="noopener">Telangana Today</a></li>
+      <li>Warangal incubators: <a href="https://yourstory.com/2016/02/incubator-warangal" target="_blank" rel="noopener">YourStory</a></li>
+      <li>Kiva private fundraising: <a href="https://www.kiva.org/lp/faq-kiva-us-crowdfunding-faqs" target="_blank" rel="noopener">Kiva</a></li>
+    </ul>
+    <p class="note">This plan is research, not legal or financial advice. Get a fintech lawyer’s written opinion before any money feature. Figures from trade press and aggregators can disagree; the full research files list every source and flag unverified numbers.</p>
+  </section>
+</main>
